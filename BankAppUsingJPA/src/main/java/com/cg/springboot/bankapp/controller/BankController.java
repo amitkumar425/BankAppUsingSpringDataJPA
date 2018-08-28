@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.springboot.bankapp.exception.AccountNotFoundException;
+import com.cg.springboot.bankapp.exception.FailedTransactionException;
 import com.cg.springboot.bankapp.exception.InvalidAccountNumberException;
 import com.cg.springboot.bankapp.pojo.BankAccount;
 import com.cg.springboot.bankapp.service.BankAppServiceLayer;
@@ -61,5 +62,24 @@ public class BankController {
 	@RequestMapping(value = "/delete/{bankAccountToBeDeleted}", method = RequestMethod.DELETE)
 	public void deleteBankAccount(@PathVariable int bankAccountToBeDeleted) {
 		bankAppServiceLayer.deleteBankAccount(bankAccountToBeDeleted);
+	}
+	
+	
+	@RequestMapping("/deposit/{accountToBeDepositedIn}/{amountToBeDeposited}")
+	public void depositAmount(@PathVariable int accountToBeDepositedIn, @PathVariable double amountToBeDeposited)
+			throws InvalidAccountNumberException, AccountNotFoundException, FailedTransactionException {
+		bankAppServiceLayer.depositAmount(accountToBeDepositedIn, amountToBeDeposited);
+	}
+	
+	@RequestMapping("/withdraw/{accountToBeWithdrawnFrom}/{amountToBeWithdrawn}")
+	public void withdrawAmount(@PathVariable int accountToBeWithdrawnFrom,@PathVariable double amountToBeWithdrawn)
+			throws InvalidAccountNumberException, AccountNotFoundException, FailedTransactionException {
+		bankAppServiceLayer.depositAmount(accountToBeWithdrawnFrom, amountToBeWithdrawn);
+	}
+	
+	@RequestMapping("fundtransfer/{accountToBeWithdrawnFrom}/{accountToBeDepositedIn}/{amountToBeTransferred}")
+	public void fundTransfer(int accountToBeWithdrawnFrom, int accountToBeDepositedIn, double amountToBeTransferred)
+			throws InvalidAccountNumberException, AccountNotFoundException, FailedTransactionException {
+		bankAppServiceLayer.fundTransfer(accountToBeWithdrawnFrom, accountToBeDepositedIn, amountToBeTransferred);
 	}
 }

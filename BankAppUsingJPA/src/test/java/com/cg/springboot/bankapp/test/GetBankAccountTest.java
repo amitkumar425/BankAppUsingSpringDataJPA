@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -20,15 +21,18 @@ import com.cg.springboot.bankapp.service.BankAppServiceLayer;
 @SpringBootTest
 public class GetBankAccountTest {
 	
-	@Mock
-	private BankAppRepositiry bankAppRepository;
-	@InjectMocks
+//	@Mock
+//	private BankAppRepositiry bankAppRepository;
+	
+	@Autowired
 	private BankAppServiceLayer bankAppServiceLayer;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 	}
+	
+	//testing with Negative Account Number.
 	
 	//testing with Negative Account Number.
 	@Test
@@ -64,6 +68,7 @@ public class GetBankAccountTest {
 		Assert.assertEquals(1, flag, 0);
 	}
 	
+	
 	//testing with Non-integer Account Number.
 	@Test
 	public void testWithNonIntegerCharacterAccountNumber() {
@@ -82,14 +87,17 @@ public class GetBankAccountTest {
 		Assert.assertEquals(1, flag, 0);
 	}
 	
-	
-//	//testing with Valid Account Number.
-//	@Test
-//	public void testWithValidAccountNumber() {
-//		char accountNumber = '$';
-//		
-//		bankAppServiceLayer.addBankAccount(new BankAccount("Amit Kumar", 70_000, "savingAccount"));
-//		
-//		Assert.assertEquals(expected ,actual , 0);
-//	}
+	//Testing with Valid Account Number.
+	@Test
+	public void testWithValidAccountNumber() {
+		BankAccount bankAccount = new BankAccount();
+		bankAccount.setAccountHolderName("Amit Kumar");
+		bankAccount.setAccountType("savingAccount");
+		bankAccount.setAccountBalance(70_000);
+		bankAccount = bankAppServiceLayer.addBankAccount(bankAccount);
+		
+		Assert.assertEquals("Amit Kumar",bankAccount.getAccountHolderName());
+		Assert.assertEquals(70000,bankAccount.getAccountBalance(),0);
+		Assert.assertEquals("savingAccount",bankAccount.getAccountType());
+	}
 }

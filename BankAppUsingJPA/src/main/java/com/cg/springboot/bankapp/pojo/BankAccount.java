@@ -44,6 +44,7 @@ public class BankAccount {
 	}
 
 	public void setAccountBalance(double accountBalance) {
+		System.out.println(accountBalance+"dddddddddd");
 		this.accountBalance = accountBalance;
 	}
 
@@ -61,6 +62,13 @@ public class BankAccount {
 
 	public static int getNextAccountNumber() {
 		return nextAccountNumber;
+	}
+
+
+	@Override
+	public String toString() {
+		return "BankAccount [accountNumber=" + accountNumber + ", accountHolderName=" + accountHolderName
+				+ ", accountBalance=" + accountBalance + ", accountType=" + accountType + "]";
 	}
 	
 	
